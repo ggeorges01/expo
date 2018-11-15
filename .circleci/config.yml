@@ -104,6 +104,7 @@ workflows:
   client:
     jobs:
       - home
+      - expotools
       - client_android
       - client_ios
       - shell_app_sim_base_ios
@@ -160,6 +161,19 @@ jobs:
       - yarn:
           command: jest --maxWorkers 1
           working_directory: ~/expo/home
+  
+  expotools:
+    executor: js
+    working_directory: ~/expo/tools/expotools
+    steps:
+      - setup
+      - restore_yarn_cache
+      - yarn_install:
+          working_directory: ~/expo/tools/expotools
+      - yarn:
+          command: tsc
+          working_directory: ~/expo/tools/expotools
+      - run: pwd
 
   client_ios:
     executor: mac
